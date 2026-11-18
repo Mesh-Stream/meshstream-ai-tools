@@ -27,7 +27,8 @@ npm run sync-docs -- --source /path/to/P2PCDN/apps/developer-site/docs
 当前两个包按同一版本一起发布。发布前先运行 `npm test`、两个 `npm pack --dry-run`，再更新
 `packages/*/package.json` 的版本并提交。仓库的 `Publish npm packages` workflow 只在 GitHub
 Release 正式发布事件中运行；在仓库设置中配置只允许发布这两个包的 npm automation token：
-`NPM_TOKEN`（兼容已有的 `MESHSTREAMAI` Secret）。创建与包版本一致的 tag 和 Release 后，
+`NPM_TOKEN`。该 Secret 必须是拥有 `@meshstream` scope 发布权限的 npm automation token；
+GitHub 或其他服务的 token 不能替代它。创建与包版本一致的 tag 和 Release 后，
 workflow 会使用 provenance 发布 `@meshstream/docs-mcp` 与 `@meshstream/agent-skills`，不会
 发布根目录私有 workspace。
 
