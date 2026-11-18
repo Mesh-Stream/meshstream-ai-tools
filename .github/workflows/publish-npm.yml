@@ -24,7 +24,7 @@ jobs:
       - run: npm test
       - run: npm publish --workspace @meshstream/docs-mcp --access public --provenance
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.MESHSTREAMAI }}
       - run: npm publish --workspace @meshstream/agent-skills --access public --provenance
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.MESHSTREAMAI }}
