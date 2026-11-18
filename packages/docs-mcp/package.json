@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "description": "Read-only MCP server for the MeshStream official developer documentation.",
-  "repository": { "type": "git", "url": "https://github.com/Mesh-Stream/meshstream-ai-tools.git", "directory": "packages/docs-mcp" },
+  "repository": { "type": "git", "url": "git+https://github.com/Mesh-Stream/meshstream-ai-tools.git", "directory": "packages/docs-mcp" },
   "homepage": "https://meshstream.net/docs/ai-coding",
   "type": "module",
   "publishConfig": { "access": "public" },
