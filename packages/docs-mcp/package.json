@@ -1,0 +1,23 @@
+{
+  "name": "@meshstream/docs-mcp",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Read-only MCP server for the MeshStream official developer documentation.",
+  "repository": { "type": "git", "url": "https://github.com/Mesh-Stream/meshstream-ai-tools.git", "directory": "packages/docs-mcp" },
+  "homepage": "https://meshstream.net/docs/ai-coding",
+  "type": "module",
+  "publishConfig": { "access": "public" },
+  "files": ["src", "content", "README.md"],
+  "scripts": {
+    "prepack": "node scripts/sync-content.mjs",
+    "start": "node src/server.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "bin": {
+    "meshstream-docs-mcp": "src/server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  }
+}

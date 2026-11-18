@@ -1,0 +1,18 @@
+{
+  "name": "meshstream-ai-tools",
+  "private": true,
+  "version": "0.1.0",
+  "description": "MeshStream MCP and AI Coding skills for SDK integration and P2P acceptance.",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "npm test --workspaces",
+    "test:docs-mcp": "npm test --workspace @meshstream/docs-mcp",
+    "test:agent-skills": "npm test --workspace @meshstream/agent-skills",
+    "pack:docs-mcp": "npm pack --workspace @meshstream/docs-mcp",
+    "pack:agent-skills": "npm pack --workspace @meshstream/agent-skills",
+    "sync-docs": "node scripts/sync-docs.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
