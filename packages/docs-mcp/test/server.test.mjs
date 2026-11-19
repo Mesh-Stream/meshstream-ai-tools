@@ -6,7 +6,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 
 const packageRoot = path.resolve(import.meta.dirname, "..");
 
-test("MCP server exposes the four read-only documentation tools", async () => {
+test("MCP server exposes the read-only documentation and planning tools", async () => {
   const transport = new StdioClientTransport({
     command: process.execPath,
     args: [path.join(packageRoot, "src", "server.mjs")],
@@ -17,7 +17,11 @@ test("MCP server exposes the four read-only documentation tools", async () => {
     await client.connect(transport);
     const listed = await client.listTools();
     assert.deepEqual(listed.tools.map((tool) => tool.name).sort(), [
+      "get_billing_guidance",
+      "get_document",
       "get_integration_guide",
+      "get_integration_plan",
+      "get_platform_matrix",
       "get_sdk_release",
       "get_troubleshooting_guide",
       "search_docs",

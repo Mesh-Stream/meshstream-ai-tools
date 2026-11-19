@@ -2,7 +2,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { getIntegrationGuide, getSdkRelease, getTroubleshootingGuide, searchDocs } from "./catalog.mjs";
+import { getBillingGuidance, getDocument, getIntegrationGuide, getIntegrationPlan, getPlatformMatrix, getSdkRelease, getTroubleshootingGuide, searchDocs } from "./catalog.mjs";
 
 const server = new McpServer({ name: "meshstream-docs", version: "0.1.0" });
 
@@ -39,5 +39,36 @@ server.registerTool("get_troubleshooting_guide", {
     query: z.string().optional().describe("Optional symptom, error, or keyword"),
   },
 }, async ({ query }) => result(await getTroubleshootingGuide(query)));
+
+server.registerTool("get_document", {
+  description: "Read one public MeshStream documentation page by its relative path. Read-only.",
+  inputSchema: {
+    path: z.string().min(1).describe("Relative path such as sdk/web.md or billing/usage.md"),
+  },
+}, async ({ path }) => result(await getDocument(path)));
+
+server.registerTool("get_integration_plan", {
+  description: "Create a structured, platform-aware MeshStream integration and P2P acceptance plan. Read-only; it does not edit customer files or use credentials.",
+  inputSchema: {
+    platform: z.string().optional().describe("web, android, ios, macos, windows, flutter, react-native, or uniapp"),
+    framework: z.string().optional().describe("Framework such as Vue, React, Flutter, or native"),
+    player: z.string().optional().describe("Existing media player such as hls.js, Shaka, Media3, or AVPlayer"),
+    protocol: z.string().optional().describe("HLS, DASH, MP4, or another actual media protocol"),
+    scenario: z.string().optional().describe("Scenario such as live playback, VOD, or add CDN fallback"),
+    mode: z.enum(["from-zero", "demo", "troubleshooting", "feature-extension", "docs"]).optional().describe("Task mode"),
+  },
+}, async (args) => result(await getIntegrationPlan(args)));
+
+server.registerTool("get_platform_matrix", {
+  description: "Return the supported MeshStream platform matrix and shared acceptance rules. Read-only.",
+  inputSchema: {},
+}, async () => result(getPlatformMatrix()));
+
+server.registerTool("get_billing_guidance", {
+  description: "Explain public MeshStream quota and plan rules and point to the pricing page. Read-only; it does not access account balance or place orders.",
+  inputSchema: {
+    query: z.string().optional().describe("Optional billing or quota question"),
+  },
+}, async ({ query }) => result(await getBillingGuidance(query)));
 
 await server.connect(new StdioServerTransport());

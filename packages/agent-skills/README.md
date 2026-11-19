@@ -16,6 +16,7 @@ npm test
 npx @meshstream/agent-skills add --ide codex
 npx @meshstream/agent-skills add --ide cursor
 npx @meshstream/agent-skills add --ide claude
+npx @meshstream/agent-skills add --ide codebuddy
 npx @meshstream/agent-skills add --ide all
 ```
 

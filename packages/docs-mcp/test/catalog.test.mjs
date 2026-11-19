@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getIntegrationGuide, getSdkRelease, getTroubleshootingGuide, searchDocs } from "../src/catalog.mjs";
+import { getBillingGuidance, getIntegrationGuide, getIntegrationPlan, getSdkRelease, getTroubleshootingGuide, searchDocs } from "../src/catalog.mjs";
 
 test("searchDocs returns official source URLs and relevant Web results", async () => {
   const results = await searchDocs("Web SDK hls.js P2P", 5);
@@ -27,5 +27,22 @@ test("getTroubleshootingGuide includes the official guide and related matches", 
   const result = await getTroubleshootingGuide("Peer");
   assert.equal(result.source.path, "troubleshooting.md");
   assert.match(result.guide, /P2P|Peer/i);
+  assert.ok(Array.isArray(result.related));
+});
+
+test("getIntegrationPlan returns platform-aware steps and acceptance evidence", async () => {
+  const result = await getIntegrationPlan({ platform: "web", framework: "Vue 3", player: "hls.js", protocol: "HLS", scenario: "live playback" });
+  assert.equal(result.request.platform, "web");
+  assert.equal(result.request.player, "hls.js");
+  assert.ok(result.plan.some((step) => /playbackUrl/.test(step)));
+  assert.ok(result.p2pAcceptance.some((step) => /同时增长/.test(step)));
+  assert.match(result.starterPrompt, /Vue 3/);
+  assert.ok(result.modeSteps.length > 0);
+});
+
+test("getBillingGuidance returns public rules without account data", async () => {
+  const result = await getBillingGuidance("quota");
+  assert.equal(result.pricingUrl, "https://meshstream.net/pricing");
+  assert.match(result.guidance, /配额|quota/i);
   assert.ok(Array.isArray(result.related));
 });

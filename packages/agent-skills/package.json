@@ -1,13 +1,22 @@
 {
   "name": "@meshstream/agent-skills",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "MeshStream AI Coding skills for SDK integration, troubleshooting, and P2P acceptance.",
-  "repository": { "type": "git", "url": "git+https://github.com/Mesh-Stream/meshstream-ai-tools.git", "directory": "packages/agent-skills" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mesh-Stream/meshstream-ai-tools.git",
+    "directory": "packages/agent-skills"
+  },
   "homepage": "https://meshstream.net/docs/ai-coding",
   "type": "module",
-  "publishConfig": { "access": "public" },
-  "files": ["src", "README.md"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
   "bin": {
     "meshstream-agent-skills": "src/cli.mjs"
   },

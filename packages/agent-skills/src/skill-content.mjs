@@ -28,6 +28,18 @@ search_docs, get_sdk_release, get_integration_guide, and get_troubleshooting_gui
 6. Release the MeshStream session on source change, playback end, page hide, and player destruction.
 7. Run the existing build and test commands after making the smallest necessary change.
 
+## Supported task modes
+
+Choose the smallest mode that matches the request:
+
+- **from-zero integration:** inspect the project, select the platform SDK and existing player, then produce the smallest working change;
+- **demo run:** find the repository's public example or demo, configure only local environment variables, run it, and report the actual result;
+- **troubleshooting:** collect the concrete error, SDK status, bootstrap/Tracker/ICE evidence, and CDN fallback result before proposing a fix;
+- **feature extension:** preserve the current integration and add one requested capability with focused tests and lifecycle cleanup;
+- **documentation lookup:** use the read-only MeshStream docs MCP and include source URLs in the answer.
+
+For Android, iOS, macOS, Windows, Flutter, React Native, and Uniapp, use the matching official setup and advanced guides. Do not silently downgrade a real-device or cross-network check to a simulator or build-only result.
+
 ## P2P acceptance requirements
 
 Peer count or a WebSocket connection alone is not proof of P2P delivery. Use two clients with the same content identity and record timestamped values for:

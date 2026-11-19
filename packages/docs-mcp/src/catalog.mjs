@@ -14,6 +14,7 @@ const documentFiles = [
   "intro.md",
   "quickstart.md",
   "ai-coding.md",
+  "billing/usage.md",
   "best-practices.md",
   "troubleshooting.md",
   "concepts/p2p.md",
@@ -160,5 +161,89 @@ export async function getTroubleshootingGuide(query = "") {
     query: String(query || "").trim() || undefined,
     guide: document.text,
     related: matches,
+  };
+}
+
+const integrationSources = {
+  web: ["sdk/web-setup.md", "sdk/web.md", "sdk/web-advanced.md"],
+  android: ["sdk/android-setup.md", "sdk/android.md", "sdk/android-advanced.md"],
+  ios: ["sdk/ios-setup.md", "sdk/ios.md", "sdk/ios-advanced.md"],
+  macos: ["sdk/ios-setup.md", "sdk/ios.md", "sdk/ios-advanced.md"],
+  windows: ["sdk/windows-setup.md", "sdk/windows.md", "sdk/windows-advanced.md"],
+  flutter: ["sdk/flutter-setup.md", "sdk/flutter.md", "sdk/flutter-advanced.md"],
+  reactnative: ["sdk/react-native-setup.md", "sdk/react-native.md", "sdk/react-native-advanced.md"],
+  "react-native": ["sdk/react-native-setup.md", "sdk/react-native.md", "sdk/react-native-advanced.md"],
+  uniapp: ["sdk/uniapp-setup.md", "sdk/uniapp.md", "sdk/uniapp-advanced.md"],
+};
+
+export async function getIntegrationPlan({ platform = "web", framework = "", player = "", protocol = "", scenario = "", mode = "from-zero" } = {}) {
+  const normalizedPlatform = String(platform || "web").trim().toLowerCase();
+  const paths = integrationSources[normalizedPlatform] || integrationSources.web;
+  const guides = await Promise.all(paths.map(getDocument));
+  const normalizedFramework = String(framework || "").trim();
+  const normalizedPlayer = String(player || "").trim();
+  const normalizedProtocol = String(protocol || "").trim().toUpperCase();
+  const normalizedScenario = String(scenario || "").trim();
+  const normalizedMode = String(mode || "from-zero").trim().toLowerCase();
+  const assumptions = [];
+  if (!normalizedFramework) assumptions.push("从项目依赖和入口文件识别框架");
+  if (!normalizedPlayer) assumptions.push("保留现有播放器，由 AI 根据项目代码识别播放器");
+  if (!normalizedProtocol) assumptions.push("从媒体地址和播放器配置识别 HLS、DASH 或直链协议");
+  return {
+    request: {
+      platform: normalizedPlatform,
+      framework: normalizedFramework || undefined,
+      player: normalizedPlayer || undefined,
+      protocol: normalizedProtocol || undefined,
+      scenario: normalizedScenario || undefined,
+    },
+    assumptions,
+    plan: [
+      "扫描项目入口、播放器、媒体协议、包管理器和现有鉴权，不覆盖业务代码",
+      "安装并锁定公开 SDK 版本，从环境变量读取 SDK Key",
+      "创建播放会话，把 SDK 返回的 playbackUrl 交给现有播放器",
+      "保留 CDN 回退、ABR、DRM、源站请求头和原有播放器生命周期",
+      "在切源、页面隐藏、播放结束和销毁时释放会话与连接",
+      "运行项目构建和测试，并输出修改文件、版本和未完成验收项",
+    ],
+    mode: normalizedMode,
+    modeSteps: {
+      "from-zero": ["确认 SDK 与播放器边界", "生成最小播放接入", "执行构建、播放和双端 P2P 验收"],
+      demo: ["定位对应平台的公开示例", "只配置本地环境变量和测试媒体", "运行示例并记录播放、P2P、回退和释放结果"],
+      troubleshooting: ["复现并收集错误码和时间线", "检查 Key、bootstrap、Tracker、ICE、分片命中和回退", "给出证据、修复动作和复测命令"],
+      "feature-extension": ["读取当前集成和生命周期", "只修改实现目标功能所需的文件", "补齐针对功能的测试和回退验收"],
+      docs: ["先用公开文档和版本表回答", "每个结论附来源 URL", "不确定时明确标记未知，不编造 API"],
+    }[normalizedMode] || ["先确认任务模式", "按官方平台文档生成方案", "输出构建和验收证据"],
+    p2pAcceptance: [
+      "使用相同 contentId、内容和清晰度启动发送端与接收端",
+      "记录首个 Peer、首个 P2P 字节、P2P 下载、P2P 上传、CDN 字节和 rebuffer",
+      "只有接收端下载与发送端上传同时增长才算真实 P2P 通过",
+      "停止或阻断 P2P 后验证 CDN 回退，最后验证 dispose/close 释放连接",
+    ],
+    sources: guides.map(({ path: sourcePath, title, url }) => ({ path: sourcePath, title, url })),
+    starterPrompt: `在当前${normalizedPlatform}项目中执行${normalizedMode}任务：${normalizedScenario || "接入 MeshStream P2P 媒体加速"}。已知上下文：框架=${normalizedFramework || "待识别"}，播放器=${normalizedPlayer || "待识别"}，协议=${normalizedProtocol || "待识别"}。先识别并确认上下文，再按官方文档生成最小改动方案。保留现有播放器、CDN、DRM、ABR 和源站鉴权；SDK Key 只能从环境变量读取；输出修改文件、精确依赖版本、构建结果、CDN 回退和真实 P2P 双端证据。`,
+  };
+}
+
+export function getPlatformMatrix() {
+  return {
+    platforms: Object.keys(integrationSources).map((platform) => ({
+      platform,
+      sources: integrationSources[platform].map((path) => ({ path, url: `https://meshstream.net/docs/${path.replace(/\.md$/, "")}` })),
+      capabilities: ["playback session", "CDN fallback", "P2P statistics", "lifecycle release"],
+    })),
+    acceptanceRule: "Peer count or WebSocket connection alone is not P2P proof; receiver download and sender upload bytes must both increase.",
+  };
+}
+
+export async function getBillingGuidance(query = "") {
+  const usage = await getDocument("billing/usage.md");
+  const matches = query ? await searchDocs(query, 5) : [];
+  return {
+    source: { path: usage.path, title: usage.title, url: usage.url },
+    pricingUrl: "https://meshstream.net/pricing",
+    guidance: usage.text,
+    related: matches,
+    note: "套餐、额度和用量只返回公开规则；实时余额、订单和支付状态请在控制台查看。",
   };
 }

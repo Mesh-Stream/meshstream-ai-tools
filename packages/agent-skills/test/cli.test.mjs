@@ -10,7 +10,7 @@ const run = promisify(execFile);
 const root = path.resolve(import.meta.dirname, "..");
 const cli = path.join(root, "src", "cli.mjs");
 
-test("installs Codex, Cursor, and Claude instructions without touching existing files", async () => {
+test("installs Codex, Cursor, Claude, and CodeBuddy instructions without touching existing files", async () => {
   const project = await fs.mkdtemp(path.join(os.tmpdir(), "meshstream-agent-skills-"));
   const result = await run(process.execPath, [cli, "add", "--ide", "all", "--project", project]);
   assert.match(result.stdout, /Installed MeshStream AI Coding instructions/);
@@ -18,6 +18,7 @@ test("installs Codex, Cursor, and Claude instructions without touching existing 
     ".codex/skills/meshstream-web-integration/SKILL.md",
     ".cursor/rules/meshstream-web-integration.mdc",
     ".claude/skills/meshstream-web-integration/SKILL.md",
+    ".codebuddy/skills/meshstream-web-integration/SKILL.md",
   ]) {
     const contents = await fs.readFile(path.join(project, file), "utf8");
     assert.match(contents, /MeshStream/);

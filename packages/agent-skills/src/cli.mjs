@@ -8,10 +8,11 @@ const targets = {
   codex: [{ path: ".codex/skills/meshstream-web-integration/SKILL.md", body: skillBody }],
   cursor: [{ path: ".cursor/rules/meshstream-web-integration.mdc", body: cursorBody }],
   claude: [{ path: ".claude/skills/meshstream-web-integration/SKILL.md", body: claudeBody }],
+  codebuddy: [{ path: ".codebuddy/skills/meshstream-web-integration/SKILL.md", body: skillBody }],
 };
 
 function usage() {
-  return `MeshStream Agent Skills\n\nUsage:\n  meshstream-agent-skills add --ide <codex|cursor|claude|all> [--project <path>] [--force]\n\nThe installer writes only the selected editor's project-local instructions. Existing files are preserved unless --force is supplied.`;
+  return `MeshStream Agent Skills\n\nUsage:\n  meshstream-agent-skills add --ide <codex|cursor|claude|codebuddy|all> [--project <path>] [--force]\n\nThe installer writes only the selected editor's project-local instructions. Existing files are preserved unless --force is supplied.`;
 }
 
 function parseArgs(argv) {
@@ -31,7 +32,7 @@ function parseArgs(argv) {
 async function install(options) {
   const requested = options.ide === "all" ? Object.keys(targets) : [options.ide];
   if (!requested[0] || requested.some((ide) => !targets[ide])) {
-    throw new Error("--ide must be codex, cursor, claude, or all");
+    throw new Error("--ide must be codex, cursor, claude, codebuddy, or all");
   }
   const written = [];
   for (const ide of requested) {

@@ -9,6 +9,38 @@ description: 使用 Codex、Cursor 或 Claude Code，通过官方任务模板完
 
 MeshStream 的 AI Coding 资料让 AI 编辑器基于官方 SDK 文档协助完成接入。当前页面提供可直接复制的任务模板；执行结果仍以本地构建、播放和真实 P2P 互传证据为准。
 
+## 现在能做什么
+
+AI Coding 分成两个层次：MCP 负责查事实和生成结构化集成方案，Skills 负责把方案落到项目工作流。它们都只读取公开文档，不读取客户代码、不接收 SDK Key，也不会替用户发布生产变更。
+
+| 能力 | MCP | Skills |
+| --- | --- | --- |
+| 文档、版本和错误码查询 | 支持，返回来源链接 | 支持，要求 AI 先查官方文档 |
+| 按平台、框架、播放器生成接入计划 | `get_integration_plan` | 支持从项目代码识别上下文 |
+| 跑官方 Demo / 从零接入 | 返回步骤和验收清单 | 支持 Codex、Cursor、Claude Code、CodeBuddy |
+| 功能扩展和故障排查 | 返回公开规则 | 保留现有播放器并执行最小改动 |
+| 套餐、配额和用量规则 | `get_billing_guidance` | 引导到公开价格页和控制台 |
+| 平台能力与验收边界 | `get_platform_matrix` | 按平台选择安装、示例和验证范围 |
+
+### 配置 MCP
+
+在支持 MCP 的编辑器中，把下面这一项加入已有的 `mcpServers`，不要覆盖其他服务：
+
+```json
+{
+  "meshstream-docs": {
+    "command": "npx",
+    "args": ["--yes", "@meshstream/docs-mcp@0.1.0"]
+  }
+}
+```
+
+配置后可以直接提问：
+
+```text
+调用 get_integration_plan，mode=from-zero，为 Vue 3 + hls.js + HLS 点播项目生成 MeshStream 最小接入方案，保留 CDN 回退，并列出真实 P2P 双端验收证据。
+```
+
 ## 快速开始
 
 在项目根目录打开 Codex、Cursor 或 Claude Code，先把下面的任务完整粘贴到对话框：
@@ -28,7 +60,36 @@ MeshStream 的 AI Coding 资料让 AI 编辑器基于官方 SDK 文档协助完�
 如果项目中没有可播放的媒体地址或 SDK Key，先生成需要我补充的清单，不要写入凭据。
 ```
 
+## 已发布工具
+
+官方工具的下一版为 `0.2.0`，包含结构化集成规划、公开计费指引和 CodeBuddy 支持：
+
+- [`@meshstream/agent-skills`](https://www.npmjs.com/package/@meshstream/agent-skills)：将接入、排错和 P2P 验收规则安装到 Codex、Cursor 或 Claude Code 项目。
+- [`@meshstream/docs-mcp`](https://www.npmjs.com/package/@meshstream/docs-mcp)：只读官方文档 MCP，不读取客户项目文件，也不执行生产操作。
+
+在项目根目录安装编辑器规则：
+
+```bash
+npx --yes @meshstream/agent-skills@0.2.0 add --ide codex
+npx --yes @meshstream/agent-skills@0.2.0 add --ide codebuddy
+```
+
+在支持 MCP 的编辑器配置中加入：
+
+```json
+{
+  "mcpServers": {
+    "meshstream-docs": {
+      "command": "npx",
+      "args": ["--yes", "@meshstream/docs-mcp@0.2.0"]
+    }
+  }
+}
+```
+
 ## Web 播放项目接入任务
+
+除了从零接入，还可以要求 AI 执行 `demo`、`troubleshooting`、`feature-extension` 或 `docs` 模式。每种模式都必须输出实际运行证据，不能只生成代码就宣称完成。
 
 对于 Vue、React 或原生 Web 项目，可以继续使用这段任务。它要求 AI 保持现有播放器控制权，并验证 P2P 失败时播放仍能继续：
 
@@ -89,7 +150,7 @@ Peer 数量大于零只代表连接建立。需要两个使用同一内容标识
 - SDK Key 放在本地环境变量或受限的运行时配置中，不提交仓库。
 - 签名播放地址、Authorization、Cookie、SecretKey 和生产日志不要粘贴到 AI 对话中。
 - AI 生成的代码必须经过构建、播放、真实互传、CDN 回退和释放验证后才能上线。
-- 当前页面提供任务模板；官方 MCP 和可安装 Skills 会在版本索引、公开包和验收流程稳定后单独发布。
+- 工具源码和发行记录见 [MeshStream AI Tools](https://github.com/Mesh-Stream/meshstream-ai-tools)。
 
 ## 下一步
 
