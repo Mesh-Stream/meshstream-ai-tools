@@ -20,6 +20,17 @@ npx @meshstream/agent-skills add --ide codebuddy
 npx @meshstream/agent-skills add --ide all
 ```
 
+The installer writes these project-local files:
+
+| Editor | File | How the editor uses it |
+| --- | --- | --- |
+| Codex | `.codex/skills/meshstream-sdk-integration/SKILL.md` | Loaded as a project skill for the current task |
+| Cursor | `.cursor/rules/meshstream-sdk-integration.mdc` | Available as a project rule; enable it in Rules when needed |
+| Claude Code | `.claude/skills/meshstream-sdk-integration/SKILL.md` | Available as the `/meshstream-sdk-integration` skill |
+| CodeBuddy | `.codebuddy/skills/meshstream-sdk-integration/SKILL.md` | Loaded by the project skill workflow after reopening the session |
+
+Run the command from the application project root, then start a new editor chat. Existing files are preserved; use `--force` only to replace an older installed rule.
+
 本地预览：
 
 ```bash

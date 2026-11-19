@@ -13,7 +13,10 @@ test("getSdkRelease reads the public version table", async () => {
   const result = await getSdkRelease("web");
   assert.equal(result.platform, "web");
   assert.ok(Array.isArray(result.releases));
-  assert.ok(result.releases.length >= 1);
+  assert.equal(result.releases.length, 0);
+  const all = await getSdkRelease("all");
+  assert.ok(all.releases.every((release) => /^\[?(Android|iOS|Flutter|React Native|Uniapp)/.test(release.sdk)));
+  assert.ok(all.releases.some((release) => release.version === "1.0.9"));
 });
 
 test("getIntegrationGuide returns setup and advanced sources", async () => {
@@ -26,13 +29,22 @@ test("getIntegrationGuide returns setup and advanced sources", async () => {
 test("getIntegrationGuide covers native and cross-platform SDKs", async () => {
   for (const platform of ["android", "ios", "macos", "windows", "flutter", "react-native", "uniapp"]) {
     const result = await getIntegrationGuide(platform);
-    assert.equal(result.platform, platform);
+    assert.equal(result.platform, platform === "react-native" ? "reactnative" : platform);
     assert.ok(result.sources.length >= 3);
     assert.ok(result.sources.some((source) => source.path.includes("-setup.md")));
   }
   const matrix = getPlatformMatrix();
   assert.ok(matrix.platforms.some(({ platform }) => platform === "android"));
   assert.ok(matrix.platforms.some(({ platform }) => platform === "flutter"));
+});
+
+test("normalizes platform aliases and adds platform-specific guidance", async () => {
+  const result = await getIntegrationPlan({ platform: "react-native", framework: "React Native" });
+  assert.equal(result.request.platform, "reactnative");
+  assert.match(result.platformGuidance.label, /React Native/);
+  assert.match(result.platformGuidance.acceptance, /Android|iOS/);
+  const android = await getIntegrationGuide("Kotlin");
+  assert.equal(android.platform, "android");
 });
 
 test("getTroubleshootingGuide includes the official guide and related matches", async () => {

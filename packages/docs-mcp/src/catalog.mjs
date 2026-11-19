@@ -10,6 +10,79 @@ const defaultDocsRoot = existsSync(bundledDocsRoot)
   : path.join(packageRoot, "apps", "developer-site", "docs");
 const maxDocumentChars = 18_000;
 
+const platformAliases = {
+  web: "web",
+  browser: "web",
+  android: "android",
+  kotlin: "android",
+  java: "android",
+  ios: "ios",
+  "ios/ipados": "ios",
+  macos: "macos",
+  mac: "macos",
+  apple: "ios",
+  windows: "windows",
+  win: "windows",
+  c: "windows",
+  cpp: "windows",
+  "c++": "windows",
+  flutter: "flutter",
+  dart: "flutter",
+  reactnative: "reactnative",
+  "react-native": "reactnative",
+  "react native": "reactnative",
+  uniapp: "uniapp",
+  "uni-app": "uniapp",
+};
+
+const platformProfiles = {
+  web: {
+    label: "Web",
+    capabilities: ["browser playback session", "MSE/WebRTC or Service Worker transport", "CDN fallback", "P2P statistics", "page lifecycle release"],
+    acceptance: "Use two browsers or browser profiles; verify Service Worker activation when using iOS Safari or direct MP4/MP3 playback.",
+  },
+  android: {
+    label: "Android",
+    capabilities: ["native playback session", "local HTTP playback proxy", "CDN fallback", "P2P statistics", "activity/background release"],
+    acceptance: "Use two real Android devices when possible; simulator results do not replace device or cross-network acceptance.",
+  },
+  ios: {
+    label: "iOS / macOS",
+    capabilities: ["Apple playback session", "local HTTP playback proxy", "CDN fallback", "P2P statistics", "controller/background release"],
+    acceptance: "Verify iOS arm64 and the required macOS architectures separately; record AVPlayer playback and both P2P byte directions.",
+  },
+  macos: {
+    label: "macOS",
+    capabilities: ["Apple playback session", "local HTTP playback proxy", "CDN fallback", "P2P statistics", "controller release"],
+    acceptance: "Verify the target macOS architecture and AVPlayer or host-player lifecycle; do not infer Intel support from an Apple Silicon run.",
+  },
+  windows: {
+    label: "Windows",
+    capabilities: ["C ABI playback session", "x64 native player integration", "CDN fallback", "P2P statistics", "client/session release"],
+    acceptance: "Verify the published x64 DLL, import library, target player, and shutdown cleanup on Windows x64.",
+  },
+  flutter: {
+    label: "Flutter",
+    capabilities: ["Dart playback session", "Android/iOS native bridge", "CDN fallback", "P2P statistics", "widget/controller release"],
+    acceptance: "Verify the Flutter example on real Android and iOS devices and record the Flutter package plus native SDK versions.",
+  },
+  reactnative: {
+    label: "React Native",
+    capabilities: ["JavaScript playback session", "Android/iOS native bridge", "CDN fallback", "P2P statistics", "screen/controller release"],
+    acceptance: "Verify the example on real Android and iOS devices and keep the npm bridge and native SDK versions pinned together.",
+  },
+  uniapp: {
+    label: "uni-app",
+    capabilities: ["UTS playback session", "Android/iOS native plugin", "CDN fallback", "P2P statistics", "page/base release"],
+    acceptance: "Use a custom base or cloud build on real Android and iOS devices; standard HBuilderX base alone is insufficient evidence.",
+  },
+};
+
+function normalizePlatform(platform = "web") {
+  const raw = String(platform || "web").trim().toLowerCase().replaceAll("_", " ");
+  return platformAliases[raw] || raw;
+}
+
 const documentFiles = [
   "intro.md",
   "quickstart.md",
@@ -116,23 +189,27 @@ export async function getDocument(relativePath) {
 
 export async function getSdkRelease(platform = "all") {
   const overview = await getDocument("sdk/overview.md");
-  const rows = overview.text.split("\n")
-    .filter((line) => /^\|/.test(line) && !/^\|\s*-/.test(line))
+  const headingIndex = overview.text.split("\n").findIndex((line) => /原生与跨平台 SDK 版本对照|native.*cross-platform.*version/i.test(line));
+  const tableText = (headingIndex >= 0 ? overview.text.split("\n").slice(headingIndex + 1) : overview.text.split("\n"))
+    .filter((line) => !/^##\s/.test(line))
+    .filter((line) => /^\|/.test(line) && !/^\|\s*-/.test(line));
+  const rows = tableText
     .map((line) => line.split("|").slice(1, -1).map((cell) => cell.trim()))
-    .filter((cells) => cells.length >= 4 && cells[0] !== "SDK")
+    .filter((cells) => cells.length >= 4 && !/^(SDK|应用|Application)/i.test(cells[0]))
     .map(([sdk, version, android, apple]) => ({ sdk, version, android, apple }));
   const normalized = String(platform || "all").trim().toLowerCase();
-  const filtered = normalized === "all" ? rows : rows.filter((row) => row.sdk.toLowerCase().includes(normalized));
+  const canonical = normalized === "all" ? "all" : normalizePlatform(normalized);
+  const filtered = canonical === "all" ? rows : rows.filter((row) => normalizePlatform(row.sdk) === canonical || row.sdk.toLowerCase().includes(normalized));
   return {
     source: { path: overview.path, url: overview.url },
-    platform: normalized,
+    platform: canonical,
     releases: filtered,
-    note: "仅返回官网公开版本表；发布前仍需从公共渠道验证精确包、哈希和兼容性。",
+    note: "仅返回官网版本对照表中的公开版本；Web 和 Windows 若没有独立版本行，应继续以对应安装页和公开发行渠道为准。发布前仍需验证精确包、哈希和兼容性。",
   };
 }
 
 export async function getIntegrationGuide(platform = "web", framework = "") {
-  const normalized = String(platform || "web").trim().toLowerCase();
+  const normalized = normalizePlatform(platform);
   const map = {
     web: ["sdk/web-setup.md", "sdk/web.md", "sdk/web-advanced.md"],
     android: ["sdk/android-setup.md", "sdk/android.md", "sdk/android-advanced.md"],
@@ -141,7 +218,6 @@ export async function getIntegrationGuide(platform = "web", framework = "") {
     windows: ["sdk/windows-setup.md", "sdk/windows.md", "sdk/windows-advanced.md"],
     flutter: ["sdk/flutter-setup.md", "sdk/flutter.md", "sdk/flutter-advanced.md"],
     reactnative: ["sdk/react-native-setup.md", "sdk/react-native.md", "sdk/react-native-advanced.md"],
-    "react-native": ["sdk/react-native-setup.md", "sdk/react-native.md", "sdk/react-native-advanced.md"],
     uniapp: ["sdk/uniapp-setup.md", "sdk/uniapp.md", "sdk/uniapp-advanced.md"],
   };
   const paths = map[normalized] || map.web;
@@ -172,12 +248,11 @@ const integrationSources = {
   windows: ["sdk/windows-setup.md", "sdk/windows.md", "sdk/windows-advanced.md"],
   flutter: ["sdk/flutter-setup.md", "sdk/flutter.md", "sdk/flutter-advanced.md"],
   reactnative: ["sdk/react-native-setup.md", "sdk/react-native.md", "sdk/react-native-advanced.md"],
-  "react-native": ["sdk/react-native-setup.md", "sdk/react-native.md", "sdk/react-native-advanced.md"],
   uniapp: ["sdk/uniapp-setup.md", "sdk/uniapp.md", "sdk/uniapp-advanced.md"],
 };
 
 export async function getIntegrationPlan({ platform = "web", framework = "", player = "", protocol = "", scenario = "", mode = "from-zero" } = {}) {
-  const normalizedPlatform = String(platform || "web").trim().toLowerCase();
+  const normalizedPlatform = normalizePlatform(platform);
   const paths = integrationSources[normalizedPlatform] || integrationSources.web;
   const guides = await Promise.all(paths.map(getDocument));
   const normalizedFramework = String(framework || "").trim();
@@ -220,6 +295,11 @@ export async function getIntegrationPlan({ platform = "web", framework = "", pla
       "只有接收端下载与发送端上传同时增长才算真实 P2P 通过",
       "停止或阻断 P2P 后验证 CDN 回退，最后验证 dispose/close 释放连接",
     ],
+    platformGuidance: platformProfiles[normalizedPlatform] || {
+      label: normalizedPlatform,
+      capabilities: platformProfiles.web.capabilities,
+      acceptance: "先确认平台是否在公开支持矩阵中，再执行对应平台验收。",
+    },
     sources: guides.map(({ path: sourcePath, title, url }) => ({ path: sourcePath, title, url })),
     starterPrompt: `在当前${normalizedPlatform}项目中执行${normalizedMode}任务：${normalizedScenario || "接入 MeshStream P2P 媒体加速"}。已知上下文：框架=${normalizedFramework || "待识别"}，播放器=${normalizedPlayer || "待识别"}，协议=${normalizedProtocol || "待识别"}。先识别并确认上下文，再按官方文档生成最小改动方案。保留现有播放器、CDN、DRM、ABR 和源站鉴权；SDK Key 只能从环境变量读取；输出修改文件、精确依赖版本、构建结果、CDN 回退和真实 P2P 双端证据。`,
   };
@@ -229,8 +309,10 @@ export function getPlatformMatrix() {
   return {
     platforms: Object.keys(integrationSources).map((platform) => ({
       platform,
+      label: platformProfiles[platform]?.label || platform,
       sources: integrationSources[platform].map((path) => ({ path, url: `https://meshstream.net/docs/${path.replace(/\.md$/, "")}` })),
-      capabilities: ["playback session", "CDN fallback", "P2P statistics", "lifecycle release"],
+      capabilities: platformProfiles[platform]?.capabilities || [],
+      acceptance: platformProfiles[platform]?.acceptance,
     })),
     acceptanceRule: "Peer count or WebSocket connection alone is not P2P proof; receiver download and sender upload bytes must both increase.",
   };

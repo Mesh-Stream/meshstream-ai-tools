@@ -77,7 +77,12 @@ Report:
 6. devices, networks, or production conditions that were not tested.
 `;
 
-export const cursorBody = `# MeshStream SDK integration
+export const cursorBody = `---
+description: Platform-aware MeshStream SDK integration, troubleshooting, and P2P acceptance
+alwaysApply: false
+---
+
+# MeshStream SDK integration
 
 Use this rule when working on MeshStream playback integration. Follow the official docs at https://meshstream.net/docs/ai-coding and use an exact public SDK version.
 
