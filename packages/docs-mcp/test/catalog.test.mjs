@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getBillingGuidance, getIntegrationGuide, getIntegrationPlan, getSdkRelease, getTroubleshootingGuide, searchDocs } from "../src/catalog.mjs";
+import { getBillingGuidance, getIntegrationGuide, getIntegrationPlan, getPlatformMatrix, getSdkRelease, getTroubleshootingGuide, searchDocs } from "../src/catalog.mjs";
 
 test("searchDocs returns official source URLs and relevant Web results", async () => {
   const results = await searchDocs("Web SDK hls.js P2P", 5);
@@ -21,6 +21,18 @@ test("getIntegrationGuide returns setup and advanced sources", async () => {
   assert.equal(result.platform, "web");
   assert.equal(result.framework, "hls.js");
   assert.deepEqual(result.sources.map((source) => source.path), ["sdk/web-setup.md", "sdk/web.md", "sdk/web-advanced.md"]);
+});
+
+test("getIntegrationGuide covers native and cross-platform SDKs", async () => {
+  for (const platform of ["android", "ios", "macos", "windows", "flutter", "react-native", "uniapp"]) {
+    const result = await getIntegrationGuide(platform);
+    assert.equal(result.platform, platform);
+    assert.ok(result.sources.length >= 3);
+    assert.ok(result.sources.some((source) => source.path.includes("-setup.md")));
+  }
+  const matrix = getPlatformMatrix();
+  assert.ok(matrix.platforms.some(({ platform }) => platform === "android"));
+  assert.ok(matrix.platforms.some(({ platform }) => platform === "flutter"));
 });
 
 test("getTroubleshootingGuide includes the official guide and related matches", async () => {

@@ -1,6 +1,6 @@
 {
   "name": "@meshstream/docs-mcp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "description": "Read-only MCP server for the MeshStream official developer documentation.",
   "repository": {

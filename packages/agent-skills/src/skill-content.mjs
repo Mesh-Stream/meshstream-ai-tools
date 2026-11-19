@@ -1,9 +1,9 @@
 export const skillBody = `---
-name: meshstream-web-integration
-description: Integrate, troubleshoot, and verify MeshStream Web SDK in an existing playback project.
+name: meshstream-sdk-integration
+description: Integrate, troubleshoot, and verify MeshStream SDKs across Web, native, and cross-platform playback projects.
 ---
 
-# MeshStream Web SDK integration
+# MeshStream SDK integration
 
 Use the official MeshStream developer documentation as the source of truth:
 
@@ -12,6 +12,18 @@ Use the official MeshStream developer documentation as the source of truth:
 - https://meshstream.net/docs/sdk/web-setup
 - https://meshstream.net/docs/sdk/web
 - https://meshstream.net/docs/sdk/web-advanced
+- https://meshstream.net/docs/sdk/android-setup
+- https://meshstream.net/docs/sdk/android
+- https://meshstream.net/docs/sdk/ios-setup
+- https://meshstream.net/docs/sdk/ios
+- https://meshstream.net/docs/sdk/windows-setup
+- https://meshstream.net/docs/sdk/windows
+- https://meshstream.net/docs/sdk/flutter-setup
+- https://meshstream.net/docs/sdk/flutter
+- https://meshstream.net/docs/sdk/react-native-setup
+- https://meshstream.net/docs/sdk/react-native
+- https://meshstream.net/docs/sdk/uniapp-setup
+- https://meshstream.net/docs/sdk/uniapp
 - https://meshstream.net/docs/concepts/statistics
 - https://meshstream.net/docs/troubleshooting
 
@@ -20,13 +32,13 @@ search_docs, get_sdk_release, get_integration_guide, and get_troubleshooting_gui
 
 ## Required workflow
 
-1. Identify the framework, player, media protocol, package manager, and existing playback lifecycle.
-2. Use an exact SDK version listed in the official public release table. Do not invent APIs or versions.
+1. Identify the target platform (Web, Android, iOS/macOS, Windows, Flutter, React Native, or uni-app), framework, player, media protocol, package manager, and existing playback lifecycle.
+2. Read the matching platform setup and integration guides, then use an exact SDK version listed in the official public release table. Do not invent APIs or versions.
 3. Read SDK keys from environment variables or restricted runtime configuration. Never write keys, SecretKeys, signed URLs, Authorization headers, or Cookies into source, logs, or chat.
-4. Reuse the existing player, origin, CDN, DRM, ABR, and authentication behavior.
+4. Reuse the existing player, origin, CDN, DRM, ABR, and authentication behavior. Native clients use the documented local playback proxy; do not move Web Service Worker code into native projects.
 5. Keep CDN fallback when bootstrap, Tracker, WebRTC, ICE, or P2P segment transfer is unavailable.
-6. Release the MeshStream session on source change, playback end, page hide, and player destruction.
-7. Run the existing build and test commands after making the smallest necessary change.
+6. Release the MeshStream session on source change, playback end, page hide/background, and player/controller destruction.
+7. Run the existing build and test commands after making the smallest necessary change; use a real device for mobile acceptance when available.
 
 ## Supported task modes
 
@@ -38,7 +50,7 @@ Choose the smallest mode that matches the request:
 - **feature extension:** preserve the current integration and add one requested capability with focused tests and lifecycle cleanup;
 - **documentation lookup:** use the read-only MeshStream docs MCP and include source URLs in the answer.
 
-For Android, iOS, macOS, Windows, Flutter, React Native, and Uniapp, use the matching official setup and advanced guides. Do not silently downgrade a real-device or cross-network check to a simulator or build-only result.
+For Android, iOS, macOS, Windows, Flutter, React Native, and uni-app, use the matching official setup and advanced guides. Cross-platform wrappers must use published native dependencies, never local AARs, Pods, or internal source paths. Do not silently downgrade a real-device or cross-network check to a simulator or build-only result.
 
 ## P2P acceptance requirements
 
@@ -65,17 +77,20 @@ Report:
 6. devices, networks, or production conditions that were not tested.
 `;
 
-export const cursorBody = `# MeshStream Web SDK integration
+export const cursorBody = `# MeshStream SDK integration
 
 Use this rule when working on MeshStream playback integration. Follow the official docs at https://meshstream.net/docs/ai-coding and use an exact public SDK version.
 
+Supported targets: Web, Android, iOS/macOS, Windows, Flutter, React Native, and uni-app.
+
 ## Workflow
 
-1. Identify the framework, player, protocol, and package manager.
-2. Read the MeshStream Web SDK setup and integration docs before editing.
+1. Identify the target platform, framework, player, protocol, package manager, and playback lifecycle.
+2. Read the matching MeshStream platform setup and integration docs before editing.
 3. Keep existing player, CDN, origin authentication, DRM, and ABR behavior.
-4. Keep CDN fallback and release the session on source change, page hide, and player destruction.
-5. Run the existing build and tests.
+4. On native clients use the documented local playback proxy; on Web use the documented Service Worker/MSE path when supported.
+5. Keep CDN fallback and release the session on source change, page hide/background, playback end, and player/controller destruction.
+6. Run the existing build and tests, then prefer real-device acceptance for mobile platforms.
 
 Never put SDK keys, SecretKeys, signed media URLs, Authorization headers, Cookies, or production logs in source or chat.
 

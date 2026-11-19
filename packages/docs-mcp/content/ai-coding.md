@@ -7,7 +7,7 @@ description: 使用 Codex、Cursor 或 Claude Code，通过官方任务模板完
 
 # AI Coding
 
-MeshStream 的 AI Coding 资料让 AI 编辑器基于官方 SDK 文档协助完成接入。当前页面提供可直接复制的任务模板；执行结果仍以本地构建、播放和真实 P2P 互传证据为准。
+MeshStream 的 AI Coding 资料让 AI 编辑器基于官方 SDK 文档协助完成接入。Web、Android、iOS / macOS、Windows、Flutter、React Native 和 uni-app 均可使用同一套 MCP 与 Skills 工作流；执行结果仍以本地构建、播放和真实 P2P 互传证据为准。
 
 ## 现在能做什么
 
@@ -30,7 +30,7 @@ AI Coding 分成两个层次：MCP 负责查事实和生成结构化集成方案
 {
   "meshstream-docs": {
     "command": "npx",
-    "args": ["--yes", "@meshstream/docs-mcp@0.1.0"]
+    "args": ["--yes", "@meshstream/docs-mcp@0.3.0"]
   }
 }
 ```
@@ -41,28 +41,68 @@ AI Coding 分成两个层次：MCP 负责查事实和生成结构化集成方案
 调用 get_integration_plan，mode=from-zero，为 Vue 3 + hls.js + HLS 点播项目生成 MeshStream 最小接入方案，保留 CDN 回退，并列出真实 P2P 双端验收证据。
 ```
 
+## 平台支持
+
+MCP 会根据 `platform`、`framework`、播放器和协议返回对应的安装、接入、高级用法和验收来源。Skills 会先识别当前项目，再选择对应平台的公开 SDK；不会把原生项目降级成 Web 示例。
+
+| 平台 | 适用项目 | 官方接入文档 |
+| --- | --- | --- |
+| Web | Vue、React、原生 Web；hls.js、Shaka、dash.js | [Web 安装](./sdk/web-setup.md) · [快速接入](./sdk/web.md) |
+| Android | Kotlin / Java 原生应用 | [Android 安装](./sdk/android-setup.md) · [快速接入](./sdk/android.md) |
+| iOS / macOS | Swift / Objective-C、AVPlayer | [Apple 安装](./sdk/ios-setup.md) · [快速接入](./sdk/ios.md) |
+| Windows | C++ / Windows 原生播放器 | [Windows 安装](./sdk/windows-setup.md) · [快速接入](./sdk/windows.md) |
+| Flutter | Flutter/Dart，调用 iOS 和 Android 原生 SDK | [Flutter 安装](./sdk/flutter-setup.md) · [快速接入](./sdk/flutter.md) |
+| React Native | React Native，调用 iOS 和 Android 原生 SDK | [React Native 安装](./sdk/react-native-setup.md) · [快速接入](./sdk/react-native.md) |
+| uni-app | Vue 3 + UTS，自定义基座或云打包 | [uni-app 安装](./sdk/uniapp-setup.md) · [快速接入](./sdk/uniapp.md) |
+
+可以直接让 MCP 生成其他端方案，例如：
+
+```text
+调用 get_integration_plan，platform=android，framework=Kotlin，player=Media3，protocol=HLS，mode=from-zero。
+输出依赖、播放器连接、Android 回环代理配置、CDN 回退，以及两台真实 Android 设备的 P2P 上传/下载字节验收。
+```
+
 ## 快速开始
 
 在项目根目录打开 Codex、Cursor 或 Claude Code，先把下面的任务完整粘贴到对话框：
 
 ```text
-请在当前项目中集成 MeshStream Web SDK。
+请在当前项目中集成 MeshStream SDK。
 
 执行顺序：
-1. 识别项目框架、播放器、媒体协议和包管理器。
-2. 阅读 MeshStream 官方 Web SDK 安装、快速接入、统计和故障排查文档。
+1. 识别目标平台、项目框架、播放器、媒体协议、包管理器和现有播放生命周期。
+2. 阅读该平台对应的 MeshStream 官方安装、快速接入、统计和故障排查文档。
 3. 使用当前公开渠道可安装的精确 SDK 版本，不猜测不存在的 API、版本或配置项。
-4. 复用现有播放器，不替换源站、CDN、DRM 或业务鉴权。
-5. 保留 CDN 回退，并在播放结束、切源和页面销毁时释放 MeshStream 会话。
-6. 修改代码后运行项目已有的构建和测试命令。
-7. 报告修改文件、实际 SDK 版本、构建结果和仍未验证的事项。
+4. 复用现有播放器，不替换源站、CDN、DRM 或业务鉴权；原生端使用对应平台的本地播放代理配置。
+5. 保留 CDN 回退，并在播放结束、切源、页面隐藏或原生控制器销毁时释放 MeshStream 会话。
+6. 修改代码后运行项目已有的构建和测试命令；移动端优先连接真实设备验证。
+7. 报告目标平台、修改文件、实际 SDK 版本、构建结果、播放结果和仍未验证的设备/网络条件。
 
 如果项目中没有可播放的媒体地址或 SDK Key，先生成需要我补充的清单，不要写入凭据。
 ```
 
+## 原生与跨端项目接入任务
+
+Android、iOS / macOS、Windows、Flutter、React Native 和 uni-app 使用相同的任务模式，但必须读取对应平台文档并保留平台播放器生命周期：
+
+```text
+在当前项目中接入 MeshStream：
+
+- 先识别平台、框架、播放器、媒体协议和现有播放控制器。
+- 使用对应平台官方安装页和快速接入页中的精确公开版本。
+- 原生/跨端项目保留现有播放器、DRM、ABR、源站鉴权和 CDN 回退；不要把 Web API 或 Service Worker 代码移植到原生端。
+- Android、iOS / macOS 使用 SDK 返回的本地播放代理地址，并完成对应网络安全配置。
+- Flutter、React Native、uni-app 只调用已发布的原生依赖，不引用本地 AAR、Pod 或内部源码路径。
+- Windows 按官方 C++ 头文件、库和播放器示例接入，检查 x64 架构和关闭释放。
+- 在切源、后台、播放结束和控制器销毁时释放会话与连接。
+- 先运行构建和单元测试，再用真实设备或目标架构验证播放、P2P 上传/下载字节和 CDN 回退。
+
+输出平台、依赖版本、修改文件、构建结果、设备/系统、P2P 双端字节证据、回退结果和未执行项。
+```
+
 ## 已发布工具
 
-官方工具的下一版为 `0.2.0`，包含结构化集成规划、公开计费指引和 CodeBuddy 支持：
+官方工具的当前版本为 `0.3.0`，包含结构化集成规划、公开计费指引和 CodeBuddy 支持：
 
 - [`@meshstream/agent-skills`](https://www.npmjs.com/package/@meshstream/agent-skills)：将接入、排错和 P2P 验收规则安装到 Codex、Cursor 或 Claude Code 项目。
 - [`@meshstream/docs-mcp`](https://www.npmjs.com/package/@meshstream/docs-mcp)：只读官方文档 MCP，不读取客户项目文件，也不执行生产操作。
@@ -70,8 +110,8 @@ AI Coding 分成两个层次：MCP 负责查事实和生成结构化集成方案
 在项目根目录安装编辑器规则：
 
 ```bash
-npx --yes @meshstream/agent-skills@0.2.0 add --ide codex
-npx --yes @meshstream/agent-skills@0.2.0 add --ide codebuddy
+npx --yes @meshstream/agent-skills@0.3.0 add --ide codex
+npx --yes @meshstream/agent-skills@0.3.0 add --ide codebuddy
 ```
 
 在支持 MCP 的编辑器配置中加入：
@@ -81,7 +121,7 @@ npx --yes @meshstream/agent-skills@0.2.0 add --ide codebuddy
   "mcpServers": {
     "meshstream-docs": {
       "command": "npx",
-      "args": ["--yes", "@meshstream/docs-mcp@0.2.0"]
+      "args": ["--yes", "@meshstream/docs-mcp@0.3.0"]
     }
   }
 }
@@ -155,7 +195,7 @@ Peer 数量大于零只代表连接建立。需要两个使用同一内容标识
 ## 下一步
 
 - [选择 SDK](./sdk/overview.md)
-- [Web SDK 安装与配置](./sdk/web-setup.md)
-- [Web SDK 快速接入](./sdk/web.md)
+- [Web SDK 安装与配置](./sdk/web-setup.md) · [Android](./sdk/android-setup.md) · [iOS / macOS](./sdk/ios-setup.md)
+- [Windows](./sdk/windows-setup.md) · [Flutter](./sdk/flutter-setup.md) · [React Native](./sdk/react-native-setup.md) · [uni-app](./sdk/uniapp-setup.md)
 - [统计与用量](./concepts/statistics.md)
 - [故障排查](./troubleshooting.md)

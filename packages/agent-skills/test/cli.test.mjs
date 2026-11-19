@@ -15,13 +15,15 @@ test("installs Codex, Cursor, Claude, and CodeBuddy instructions without touchin
   const result = await run(process.execPath, [cli, "add", "--ide", "all", "--project", project]);
   assert.match(result.stdout, /Installed MeshStream AI Coding instructions/);
   for (const file of [
-    ".codex/skills/meshstream-web-integration/SKILL.md",
-    ".cursor/rules/meshstream-web-integration.mdc",
-    ".claude/skills/meshstream-web-integration/SKILL.md",
-    ".codebuddy/skills/meshstream-web-integration/SKILL.md",
+    ".codex/skills/meshstream-sdk-integration/SKILL.md",
+    ".cursor/rules/meshstream-sdk-integration.mdc",
+    ".claude/skills/meshstream-sdk-integration/SKILL.md",
+    ".codebuddy/skills/meshstream-sdk-integration/SKILL.md",
   ]) {
     const contents = await fs.readFile(path.join(project, file), "utf8");
     assert.match(contents, /MeshStream/);
+    assert.match(contents, /Android/);
+    assert.match(contents, /iOS/);
   }
   await assert.rejects(() => run(process.execPath, [cli, "add", "--ide", "codex", "--project", project]), /already exists/);
 });

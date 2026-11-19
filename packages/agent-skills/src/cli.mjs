@@ -5,14 +5,14 @@ import process from "node:process";
 import { claudeBody, cursorBody, skillBody } from "./skill-content.mjs";
 
 const targets = {
-  codex: [{ path: ".codex/skills/meshstream-web-integration/SKILL.md", body: skillBody }],
-  cursor: [{ path: ".cursor/rules/meshstream-web-integration.mdc", body: cursorBody }],
-  claude: [{ path: ".claude/skills/meshstream-web-integration/SKILL.md", body: claudeBody }],
-  codebuddy: [{ path: ".codebuddy/skills/meshstream-web-integration/SKILL.md", body: skillBody }],
+  codex: [{ path: ".codex/skills/meshstream-sdk-integration/SKILL.md", body: skillBody }],
+  cursor: [{ path: ".cursor/rules/meshstream-sdk-integration.mdc", body: cursorBody }],
+  claude: [{ path: ".claude/skills/meshstream-sdk-integration/SKILL.md", body: claudeBody }],
+  codebuddy: [{ path: ".codebuddy/skills/meshstream-sdk-integration/SKILL.md", body: skillBody }],
 };
 
 function usage() {
-  return `MeshStream Agent Skills\n\nUsage:\n  meshstream-agent-skills add --ide <codex|cursor|claude|codebuddy|all> [--project <path>] [--force]\n\nThe installer writes only the selected editor's project-local instructions. Existing files are preserved unless --force is supplied.`;
+  return `MeshStream Agent Skills\n\nUsage:\n  meshstream-agent-skills add --ide <codex|cursor|claude|codebuddy|all> [--project <path>] [--force]\n\nThe installer writes platform-aware SDK instructions for Web, Android, iOS/macOS, Windows, Flutter, React Native, and uni-app. Existing files are preserved unless --force is supplied.`;
 }
 
 function parseArgs(argv) {
