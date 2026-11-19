@@ -17,6 +17,9 @@ test("getSdkRelease reads the public version table", async () => {
   const all = await getSdkRelease("all");
   assert.ok(all.releases.every((release) => /^\[?(Android|iOS|Flutter|React Native|Uniapp)/.test(release.sdk)));
   assert.ok(all.releases.some((release) => release.version === "1.0.9"));
+  assert.equal((await getSdkRelease("react-native")).releases.length, 1);
+  assert.equal((await getSdkRelease("iOS / macOS")).releases.length, 1);
+  assert.equal((await getSdkRelease("macos")).releases.length, 1);
 });
 
 test("getIntegrationGuide returns setup and advanced sources", async () => {
@@ -45,6 +48,8 @@ test("normalizes platform aliases and adds platform-specific guidance", async ()
   assert.match(result.platformGuidance.acceptance, /Android|iOS/);
   const android = await getIntegrationGuide("Kotlin");
   assert.equal(android.platform, "android");
+  const apple = await getIntegrationGuide("iOS / macOS");
+  assert.equal(apple.platform, "ios");
 });
 
 test("getTroubleshootingGuide includes the official guide and related matches", async () => {

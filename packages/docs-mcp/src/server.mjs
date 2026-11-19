@@ -4,7 +4,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { getBillingGuidance, getDocument, getIntegrationGuide, getIntegrationPlan, getPlatformMatrix, getSdkRelease, getTroubleshootingGuide, searchDocs } from "./catalog.mjs";
 
-const server = new McpServer({ name: "meshstream-docs", version: "0.3.0" });
+const server = new McpServer({ name: "meshstream-docs", version: "0.5.0" });
 
 function result(value) {
   return { content: [{ type: "text", text: JSON.stringify(value, null, 2) }] };

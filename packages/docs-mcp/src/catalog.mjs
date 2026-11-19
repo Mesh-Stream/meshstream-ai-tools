@@ -18,6 +18,9 @@ const platformAliases = {
   java: "android",
   ios: "ios",
   "ios/ipados": "ios",
+  "ios/macos": "ios",
+  "ios / macos": "ios",
+  "ios-macos": "ios",
   macos: "macos",
   mac: "macos",
   apple: "ios",
@@ -81,6 +84,10 @@ const platformProfiles = {
 function normalizePlatform(platform = "web") {
   const raw = String(platform || "web").trim().toLowerCase().replaceAll("_", " ");
   return platformAliases[raw] || raw;
+}
+
+function markdownLabel(value) {
+  return String(value || "").replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").trim();
 }
 
 const documentFiles = [
@@ -199,7 +206,13 @@ export async function getSdkRelease(platform = "all") {
     .map(([sdk, version, android, apple]) => ({ sdk, version, android, apple }));
   const normalized = String(platform || "all").trim().toLowerCase();
   const canonical = normalized === "all" ? "all" : normalizePlatform(normalized);
-  const filtered = canonical === "all" ? rows : rows.filter((row) => normalizePlatform(row.sdk) === canonical || row.sdk.toLowerCase().includes(normalized));
+  const filtered = canonical === "all" ? rows : rows.filter((row) => {
+    const label = markdownLabel(row.sdk).toLowerCase();
+    return normalizePlatform(label) === canonical
+      || (canonical === "ios" && label.includes("ios"))
+      || (canonical === "macos" && label.includes("macos"))
+      || label.includes(normalized);
+  });
   return {
     source: { path: overview.path, url: overview.url },
     platform: canonical,
