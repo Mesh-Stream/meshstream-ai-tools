@@ -23,9 +23,31 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - run: npm publish --workspace @meshstream/docs-mcp --access public --provenance
+      - id: docs-version
+        name: Check docs package version
+        shell: bash
+        run: |
+          version=$(node -p "require('./packages/docs-mcp/package.json').version")
+          if npm view "@meshstream/docs-mcp@${version}" version >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+      - id: agent-version
+        name: Check agent package version
+        shell: bash
+        run: |
+          version=$(node -p "require('./packages/agent-skills/package.json').version")
+          if npm view "@meshstream/agent-skills@${version}" version >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.docs-version.outputs.exists != 'true'
+        run: npm publish --workspace @meshstream/docs-mcp --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: npm publish --workspace @meshstream/agent-skills --access public --provenance
+      - if: steps.agent-version.outputs.exists != 'true'
+        run: npm publish --workspace @meshstream/agent-skills --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
