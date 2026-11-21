@@ -1,6 +1,6 @@
 # MeshStream Agent Skills
 
-这是 MeshStream AI Coding Skill 的本地预览包。它把 Web、Android、iOS / macOS、Windows、Flutter、React Native 和 uni-app 的接入、排错和 P2P 验收规则安装到项目目录，不读取或上传客户代码，也不会写入凭据。
+这是 MeshStream AI Coding Skill 包。它把 Web、Android、iOS / macOS、Windows、Flutter、React Native 和 uni-app 的接入、排错和 P2P 验收规则安装到项目目录，不读取或上传客户代码，也不会写入凭据。
 
 ## 本地测试
 
