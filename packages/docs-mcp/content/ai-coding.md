@@ -30,7 +30,7 @@ AI Coding 分成两个层次：MCP 负责查事实和生成结构化集成方案
 {
   "meshstream-docs": {
     "command": "npx",
-    "args": ["--yes", "@meshstream/docs-mcp@0.6.1"]
+    "args": ["--yes", "@meshstream/docs-mcp@0.6.2"]
   }
 }
 ```
@@ -102,7 +102,7 @@ Android、iOS / macOS、Windows、Flutter、React Native 和 uni-app 使用相�
 
 ## 已发布工具
 
-官方工具的当前版本为 `0.6.1`，包含结构化集成规划、公开计费指引和 CodeBuddy 支持：
+官方工具的当前版本为 `0.6.2`，包含结构化集成规划、公开计费指引和 CodeBuddy 支持：
 
 - [`@meshstream/agent-skills`](https://www.npmjs.com/package/@meshstream/agent-skills)：将接入、排错和 P2P 验收规则安装到 Codex、Cursor、Claude Code 或 CodeBuddy 项目。
 - [`@meshstream/docs-mcp`](https://www.npmjs.com/package/@meshstream/docs-mcp)：只读官方文档 MCP，不读取客户项目文件，也不执行生产操作。
@@ -110,8 +110,8 @@ Android、iOS / macOS、Windows、Flutter、React Native 和 uni-app 使用相�
 在项目根目录安装编辑器规则：
 
 ```bash
-npx --yes @meshstream/agent-skills@0.6.1 add --ide codex
-npx --yes @meshstream/agent-skills@0.6.1 add --ide codebuddy
+npx --yes @meshstream/agent-skills@0.6.2 add --ide codex
+npx --yes @meshstream/agent-skills@0.6.2 add --ide codebuddy
 ```
 
 ### 四种编辑器怎么使用
@@ -120,15 +120,15 @@ npx --yes @meshstream/agent-skills@0.6.1 add --ide codebuddy
 
 | 编辑器 | 安装命令 | 生成文件 | 使用方式 |
 | --- | --- | --- | --- |
-| Codex | `npx --yes @meshstream/agent-skills@0.6.1 add --ide codex` | `.codex/skills/meshstream-sdk-integration/SKILL.md` | 在项目中直接描述接入、排错或验收任务 |
-| Cursor | `npx --yes @meshstream/agent-skills@0.6.1 add --ide cursor` | `.cursor/rules/meshstream-sdk-integration.mdc` | 新建 Chat，按项目规则执行；需要时在 Rules 中启用该规则 |
-| Claude Code | `npx --yes @meshstream/agent-skills@0.6.1 add --ide claude` | `.claude/skills/meshstream-sdk-integration/SKILL.md` | 新建会话后直接提问，或使用 `/meshstream-sdk-integration` 调用技能 |
-| CodeBuddy | `npx --yes @meshstream/agent-skills@0.6.1 add --ide codebuddy` | `.codebuddy/skills/meshstream-sdk-integration/SKILL.md` | 重启项目会话后直接提问，技能会按平台选择文档 |
+| Codex | `npx --yes @meshstream/agent-skills@0.6.2 add --ide codex` | `.codex/skills/meshstream-sdk-integration/SKILL.md` | 在项目中直接描述接入、排错或验收任务 |
+| Cursor | `npx --yes @meshstream/agent-skills@0.6.2 add --ide cursor` | `.cursor/rules/meshstream-sdk-integration.mdc` | 新建 Chat，按项目规则执行；需要时在 Rules 中启用该规则 |
+| Claude Code | `npx --yes @meshstream/agent-skills@0.6.2 add --ide claude` | `.claude/skills/meshstream-sdk-integration/SKILL.md` | 新建会话后直接提问，或使用 `/meshstream-sdk-integration` 调用技能 |
+| CodeBuddy | `npx --yes @meshstream/agent-skills@0.6.2 add --ide codebuddy` | `.codebuddy/skills/meshstream-sdk-integration/SKILL.md` | 重启项目会话后直接提问，技能会按平台选择文档 |
 
 一次安装全部编辑器规则：
 
 ```bash
-npx --yes @meshstream/agent-skills@0.6.1 add --ide all --project .
+npx --yes @meshstream/agent-skills@0.6.2 add --ide all --project .
 ```
 
 已有规则不会被覆盖；确认要更新时显式加 `--force`。安装完成后可以这样开始：
@@ -146,7 +146,7 @@ P2P 上传/下载字节、CDN 回退和释放证据。
   "mcpServers": {
     "meshstream-docs": {
       "command": "npx",
-      "args": ["--yes", "@meshstream/docs-mcp@0.6.1"]
+      "args": ["--yes", "@meshstream/docs-mcp@0.6.2"]
     }
   }
 }
