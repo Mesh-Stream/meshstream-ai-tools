@@ -9,7 +9,7 @@ pagination_label: "iOS / macOS SDK 安装与配置"
 
 MeshStreamKit 为 iOS 和 macOS 应用提供 P2P 媒体分发加速能力。SDK 提供 Objective-C 接口，可与 AVPlayer 或兼容的第三方播放器集成。
 
-当前发布版本为 `MeshStreamKit 1.0.10`，同一发行包包含 iOS 真机、iOS 模拟器及 macOS 双架构组件。
+当前发布版本为 `MeshStreamKit 1.1.2`，同一发行包包含 iOS 真机、iOS 模拟器及 macOS 双架构组件。
 
 官方发布包、示例工程及更新说明见 [SDK 仓库](https://github.com/Mesh-Stream/meshstream-p2p-ios-sdk)。
 
@@ -41,7 +41,7 @@ MeshStreamKit 为 iOS 和 macOS 应用提供 P2P 媒体分发加速能力。SDK 
 platform :ios, '15.0'
 
 target 'YourApp' do
-  pod 'MeshStreamKit', '1.0.10'
+  pod 'MeshStreamKit', '1.1.2'
 end
 ```
 
@@ -61,7 +61,7 @@ pod install --repo-update
 https://github.com/Mesh-Stream/meshstream-p2p-ios-sdk.git
 ```
 
-选择精确版本 `1.0.10`，并将 `MeshStreamKit` 添加至应用 Target。
+选择精确版本 `1.1.2`，并将 `MeshStreamKit` 添加至应用 Target。
 
 ### 手动集成
 
@@ -71,7 +71,7 @@ https://github.com/Mesh-Stream/meshstream-p2p-ios-sdk.git
 
 ### 更新 SDK
 
-CocoaPods 首次安装时解析满足项目依赖约束的版本，后续安装使用 `Podfile.lock` 锁定的版本。上面的示例将版本精确锁定为 `1.0.10`。升级时先将 `Podfile` 中的版本改为目标已发布版本，再执行：
+CocoaPods 首次安装时解析满足项目依赖约束的版本，后续安装使用 `Podfile.lock` 锁定的版本。上面的示例将版本精确锁定为 `1.1.2`。升级时先将 `Podfile` 中的版本改为目标已发布版本，再执行：
 
 ```bash
 pod update MeshStreamKit --repo-update

@@ -7,7 +7,7 @@ pagination_label: "React Native SDK 快速接入"
 
 # React Native SDK 快速接入
 
-当前 npm 包版本为 `react-native-meshstream 1.0.6`，发布于 [npm](https://www.npmjs.com/package/react-native-meshstream/v/1.0.6)。它提供统一的 JavaScript client/session API，播放器仍由应用管理。
+当前 npm 包版本为 `react-native-meshstream 1.1.2`，发布于 [npm](https://www.npmjs.com/package/react-native-meshstream/v/1.1.2)。它提供统一的 JavaScript client/session API，播放器仍由应用管理。
 
 <span id="接入准备" />
 <span id="安装" />

@@ -11,6 +11,8 @@ import Link from '@docusaurus/Link';
 
 MeshStream Web SDK 在不替换现有播放器的前提下，为 HLS、DASH 播放增加 P2P 加速；MP4 和 MP3 的加速仅在 Service Worker 可用时启用。播放器继续负责清单解析、ABR、解码与渲染；SDK 负责播放会话和加速处理。
 
+当前公开版本为 `@meshstream/p2p-web 1.1.8`。生产项目建议使用精确版本并提交 lockfile。
+
 ## 接入前准备
 
 - 控制台创建的 SDK Key；
@@ -20,7 +22,7 @@ MeshStream Web SDK 在不替换现有播放器的前提下，为 HLS、DASH 播�
 安装 SDK：
 
 ```bash
-npm install @meshstream/p2p-web
+npm install --save-exact @meshstream/p2p-web@1.1.8
 ```
 
 ## 浏览器与播放器接入选择

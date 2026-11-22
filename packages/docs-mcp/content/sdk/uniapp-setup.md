@@ -7,7 +7,7 @@ pagination_label: "Uniapp SDK 安装与配置"
 
 # Uniapp SDK 安装与配置
 
-当前 DCloud 插件版本为 `meshstream-p2p 1.0.7`，可从 [DCloud 插件市场](https://ext.dcloud.net.cn/plugin?name=meshstream-p2p)安装。插件用于 uni-app Vue 3 App，不提供播放器界面或解码器。
+当前 DCloud 插件版本为 `meshstream-p2p 1.1.4`，可从 [DCloud 插件市场](https://ext.dcloud.net.cn/plugin?name=meshstream-p2p)安装。插件用于 uni-app Vue 3 App，不提供播放器界面或解码器。
 
 ## 接入准备
 
@@ -17,7 +17,7 @@ pagination_label: "Uniapp SDK 安装与配置"
 - 一个支持目标格式的 uni-app 播放器；
 - Android 或 iOS 自定义基座/云打包环境。
 
-插件 Android 声明下限为 API 21，iOS 为 15.0。应用实际下限取插件、HBuilderX 基座、播放器和其他依赖的最高要求；当前示例使用 Android API 24。插件固定使用公开 Android SDK `io.meshstream:meshstream-android-sdk:1.0.10` 和 iOS `MeshStreamKit 1.0.10`。
+插件 Android 声明下限为 API 21，iOS 为 15.0。应用实际下限取插件、HBuilderX 基座、播放器和其他依赖的最高要求；当前示例使用 Android API 24。插件固定使用公开 Android SDK `io.meshstream:meshstream-android-sdk:1.1.2` 和 iOS `MeshStreamKit 1.1.2`。
 
 Android 原生依赖包含 `armeabi-v7a`、`arm64-v8a`、`x86`、`x86_64` 四种 ABI。真机与模拟器需同时满足框架、HBuilderX 基座和播放器的系统及架构要求。
 
@@ -25,7 +25,7 @@ Android 原生依赖包含 `armeabi-v7a`、`arm64-v8a`、`x86`、`x86_64` 四种
 
 Android 权限与编译要求见[原生工程配置](./android-setup.md#工程配置)，R8 和缓存预算见[混淆与内存](./android-setup.md#混淆与内存)。保留 HBuilderX 基座要求的 Java/Kotlin 编译目标。
 
-在 HBuilderX 中通过插件市场安装精确版本 `1.0.7`，或将已发布插件包解压到项目的 `uni_modules/meshstream-p2p/`，确保 `package.json` 直接位于该目录下。
+在 HBuilderX 中通过插件市场安装精确版本 `1.1.4`，或将已发布插件包解压到项目的 `uni_modules/meshstream-p2p/`，确保 `package.json` 直接位于该目录下。
 
 标准基座不包含该插件所需的原生 SDK。请使用自定义基座或云打包，并确保 Android Maven、iOS CocoaPods 能解析公开原生依赖。
 

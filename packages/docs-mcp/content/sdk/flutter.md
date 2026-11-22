@@ -7,7 +7,7 @@ pagination_label: "Flutter SDK 快速接入"
 
 # Flutter SDK 快速接入
 
-当前插件版本为 `meshstream_p2p 1.0.9`，发布于 [pub.dev](https://pub.dev/packages/meshstream_p2p/versions/1.0.9)。插件把原生 SDK 的播放地址和状态交给 Flutter 播放器，不提供播放器界面或解码器。
+当前插件版本为 `meshstream_p2p 1.1.2`，发布于 [pub.dev](https://pub.dev/packages/meshstream_p2p/versions/1.1.2)。插件把原生 SDK 的播放地址和状态交给 Flutter 播放器，不提供播放器界面或解码器。
 
 <span id="接入准备" />
 <span id="安装" />

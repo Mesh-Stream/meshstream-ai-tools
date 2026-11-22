@@ -9,6 +9,8 @@ pagination_label: "Windows SDK 安装与配置"
 
 MeshStream Windows SDK 通过 C ABI 为桌面播放器提供 P2P 加速能力。应用继续使用自己的播放器，SDK 负责播放会话和加速处理。
 
+当前公开版本为 `1.1.2`。该版本通过 GitHub Release 提供 x64 DLL、导入库和头文件。
+
 ## 平台与运行环境
 
 | 项目 | 当前发布支持 |

@@ -9,7 +9,7 @@ pagination_label: "iOS / macOS SDK 快速接入"
 
 MeshStreamKit 为 iOS 和 macOS 应用提供 P2P 媒体分发加速能力。SDK 提供 Objective-C 接口，可与 AVPlayer 或兼容的第三方播放器集成。
 
-当前发布版本为 `MeshStreamKit 1.0.10`，同一发行包包含 iOS 真机、iOS 模拟器及 macOS 双架构组件。
+当前发布版本为 `MeshStreamKit 1.1.2`，同一发行包包含 iOS 真机、iOS 模拟器及 macOS 双架构组件。
 
 官方发布包、示例工程及更新说明见 [SDK 仓库](https://github.com/Mesh-Stream/meshstream-p2p-ios-sdk)。
 

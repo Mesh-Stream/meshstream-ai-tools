@@ -1,6 +1,6 @@
 {
   "name": "@meshstream/agent-skills",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "private": false,
   "description": "MeshStream AI Coding skills for SDK integration, troubleshooting, and P2P acceptance.",
   "repository": {

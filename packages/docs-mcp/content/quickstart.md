@@ -75,7 +75,7 @@ maven {
 在应用模块中声明依赖：
 
 ```kotlin
-implementation("io.meshstream:meshstream-android-sdk:1.0.10")
+implementation("io.meshstream:meshstream-android-sdk:1.1.2")
 ```
 
 创建客户端和播放会话，并将 `playbackUrl` 交给 Media3 / ExoPlayer：
@@ -106,10 +106,10 @@ session.close()
 通过 CocoaPods 安装：
 
 ```ruby
-pod 'MeshStreamKit', '1.0.10'
+pod 'MeshStreamKit', '1.1.2'
 ```
 
-执行 `pod install --repo-update` 安装依赖。已有项目使用 `Podfile.lock` 锁定的版本；升级 SDK 时先将 `Podfile` 中精确锁定的 `1.0.10` 改为目标已发布版本，再执行 `pod update MeshStreamKit --repo-update`。其他安装方式与应用权限配置见 [iOS / macOS SDK 安装与配置](./sdk/ios-setup.md)。
+执行 `pod install --repo-update` 安装依赖。已有项目使用 `Podfile.lock` 锁定的版本；升级 SDK 时先将 `Podfile` 中精确锁定的 `1.1.2` 改为目标已发布版本，再执行 `pod update MeshStreamKit --repo-update`。其他安装方式与应用权限配置见 [iOS / macOS SDK 安装与配置](./sdk/ios-setup.md)。
 
 在播放管理器中持有 `self.client`、`self.session` 和 `self.player` 属性，并执行以下代码。SDK Key 需对应目标平台及已登记的 Bundle ID；`originURL` 为原始媒体地址：
 

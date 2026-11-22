@@ -13,10 +13,12 @@ test("getSdkRelease reads the public version table", async () => {
   const result = await getSdkRelease("web");
   assert.equal(result.platform, "web");
   assert.ok(Array.isArray(result.releases));
-  assert.equal(result.releases.length, 0);
+  assert.equal(result.releases.length, 1);
   const all = await getSdkRelease("all");
-  assert.ok(all.releases.every((release) => /^\[?(Android|iOS|Flutter|React Native|Uniapp)/.test(release.sdk)));
-  assert.ok(all.releases.some((release) => release.version === "1.0.9"));
+  assert.ok(all.releases.every((release) => /^\[?(Web|Android|iOS|Windows|Flutter|React Native|Uniapp)/.test(release.sdk)));
+  assert.ok(all.releases.some((release) => release.version === "1.1.2"));
+  assert.equal((await getSdkRelease("web")).releases.length, 1);
+  assert.equal((await getSdkRelease("windows")).releases.length, 1);
   assert.equal((await getSdkRelease("react-native")).releases.length, 1);
   assert.equal((await getSdkRelease("iOS / macOS")).releases.length, 1);
   assert.equal((await getSdkRelease("macos")).releases.length, 1);

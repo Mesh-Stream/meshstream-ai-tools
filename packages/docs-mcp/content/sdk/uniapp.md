@@ -7,7 +7,7 @@ pagination_label: "Uniapp SDK 快速接入"
 
 # Uniapp SDK 快速接入
 
-当前 DCloud 插件版本为 `meshstream-p2p 1.0.7`，可从 [DCloud 插件市场](https://ext.dcloud.net.cn/plugin?name=meshstream-p2p)安装。插件用于 uni-app Vue 3 App，不提供播放器界面或解码器。
+当前 DCloud 插件版本为 `meshstream-p2p 1.1.4`，可从 [DCloud 插件市场](https://ext.dcloud.net.cn/plugin?name=meshstream-p2p)安装。插件用于 uni-app Vue 3 App，不提供播放器界面或解码器。
 
 <span id="接入准备" />
 <span id="安装" />

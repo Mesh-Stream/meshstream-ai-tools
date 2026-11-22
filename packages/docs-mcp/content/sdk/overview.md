@@ -29,11 +29,13 @@ sidebar_label: 选择 SDK
 
 | SDK | 当前版本 | Android 原生依赖 | Apple 原生依赖 |
 | --- | --- | --- | --- |
-| [Android](./android.md) | 1.0.9 | — | — |
-| [iOS / macOS](./ios.md) | 1.0.8 | — | — |
-| [Flutter](./flutter.md) | 1.0.8 | 1.0.9 | 1.0.8 |
-| [React Native](./react-native.md) | 1.0.5 | 1.0.9 | 1.0.8 |
-| [Uniapp](./uniapp.md) | 1.0.6 | 1.0.9 | 1.0.8 |
+| [Web](./web.md) | 1.1.8 | — | — |
+| [Android](./android.md) | 1.1.2 | — | — |
+| [iOS / macOS](./ios.md) | 1.1.2 | — | — |
+| [Windows](./windows.md) | 1.1.2 | — | — |
+| [Flutter](./flutter.md) | 1.1.2 | 1.1.2 | 1.1.2 |
+| [React Native](./react-native.md) | 1.1.2 | 1.1.2 | 1.1.2 |
+| [Uniapp](./uniapp.md) | 1.1.4 | 1.1.2 | 1.1.2 |
 
 跨平台插件与原生 SDK 的版本号独立管理。建议固定依赖版本，并将包管理器锁文件纳入版本管理。
 

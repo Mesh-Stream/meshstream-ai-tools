@@ -217,7 +217,7 @@ export async function getSdkRelease(platform = "all") {
     source: { path: overview.path, url: overview.url },
     platform: canonical,
     releases: filtered,
-    note: "仅返回官网版本对照表中的公开版本；Web 和 Windows 若没有独立版本行，应继续以对应安装页和公开发行渠道为准。发布前仍需验证精确包、哈希和兼容性。",
+    note: "仅返回官网版本对照表中的公开版本；仍需在发布前按对应安装页和公开发行渠道验证精确包、哈希和兼容性。",
   };
 }
 

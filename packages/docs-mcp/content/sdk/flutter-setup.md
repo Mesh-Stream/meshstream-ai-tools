@@ -7,7 +7,7 @@ pagination_label: "Flutter SDK 安装与配置"
 
 # Flutter SDK 安装与配置
 
-当前插件版本为 `meshstream_p2p 1.0.9`，发布于 [pub.dev](https://pub.dev/packages/meshstream_p2p/versions/1.0.9)。插件把原生 SDK 的播放地址和状态交给 Flutter 播放器，不提供播放器界面或解码器。
+当前插件版本为 `meshstream_p2p 1.1.2`，发布于 [pub.dev](https://pub.dev/packages/meshstream_p2p/versions/1.1.2)。插件把原生 SDK 的播放地址和状态交给 Flutter 播放器，不提供播放器界面或解码器。
 
 ## 接入准备
 
@@ -16,7 +16,7 @@ pagination_label: "Flutter SDK 安装与配置"
 - 一个可播放的 HLS `.m3u8`、DASH `.mpd`、支持 Range 的 MP4 或 MP3 地址；
 - 一个 Flutter 播放器，例如 `video_player`。
 
-插件 Android 声明下限为 API 21，iOS 为 15.0。应用实际下限取插件、Flutter 引擎、播放器和其他依赖的最高要求；当前示例使用 Android API 24。插件固定使用公开 Android SDK `io.meshstream:meshstream-android-sdk:1.0.10` 和 iOS `MeshStreamKit 1.0.10`。
+插件 Android 声明下限为 API 21，iOS 为 15.0。应用实际下限取插件、Flutter 引擎、播放器和其他依赖的最高要求；当前示例使用 Android API 24。插件固定使用公开 Android SDK `io.meshstream:meshstream-android-sdk:1.1.2` 和 iOS `MeshStreamKit 1.1.2`。
 
 Android 原生依赖包含 `armeabi-v7a`、`arm64-v8a`、`x86`、`x86_64` 四种 ABI。真机与模拟器需同时满足框架和播放器的系统及架构要求。
 
@@ -28,7 +28,7 @@ Android 权限与编译要求见[原生工程配置](./android-setup.md#工程�
 
 ```yaml
 dependencies:
-  meshstream_p2p: 1.0.9
+  meshstream_p2p: 1.1.2
   video_player: ^2.9.3
 ```
 

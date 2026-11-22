@@ -7,7 +7,7 @@ pagination_label: "React Native SDK 安装与配置"
 
 # React Native SDK 安装与配置
 
-当前 npm 包版本为 `react-native-meshstream 1.0.6`，发布于 [npm](https://www.npmjs.com/package/react-native-meshstream/v/1.0.6)。它提供统一的 JavaScript client/session API，播放器仍由应用管理。
+当前 npm 包版本为 `react-native-meshstream 1.1.2`，发布于 [npm](https://www.npmjs.com/package/react-native-meshstream/v/1.1.2)。它提供统一的 JavaScript client/session API，播放器仍由应用管理。
 
 ## 接入准备
 
@@ -16,7 +16,7 @@ pagination_label: "React Native SDK 安装与配置"
 - 一个可播放的 HLS `.m3u8`、DASH `.mpd`、支持 Range 的 MP4 或 MP3 地址；
 - 一个播放器，例如 `react-native-video`。
 
-插件 Android 声明下限为 API 21，iOS 为 15+。应用实际下限取插件、React Native、播放器和其他依赖的最高要求；当前示例使用 Android API 24、iOS 15.1。Android 桥接固定使用 `io.meshstream:meshstream-android-sdk:1.0.10`，iOS 桥接固定使用 `MeshStreamKit 1.0.10`。
+插件 Android 声明下限为 API 21，iOS 为 15+。应用实际下限取插件、React Native、播放器和其他依赖的最高要求；当前示例使用 Android API 24、iOS 15.1。Android 桥接固定使用 `io.meshstream:meshstream-android-sdk:1.1.2`，iOS 桥接固定使用 `MeshStreamKit 1.1.2`。
 
 Android 原生依赖包含 `armeabi-v7a`、`arm64-v8a`、`x86`、`x86_64` 四种 ABI。真机与模拟器需同时满足框架和播放器的系统及架构要求。
 
@@ -25,7 +25,7 @@ Android 原生依赖包含 `armeabi-v7a`、`arm64-v8a`、`x86`、`x86_64` 四种
 Android 权限与编译要求见[原生工程配置](./android-setup.md#工程配置)，R8 和缓存预算见[混淆与内存](./android-setup.md#混淆与内存)。保留 React Native 工程要求的 Java/Kotlin 编译目标。
 
 ```bash
-npm install --save-exact react-native-meshstream@1.0.6
+npm install --save-exact react-native-meshstream@1.1.2
 npm install react-native-video
 cd ios && pod install --repo-update
 ```

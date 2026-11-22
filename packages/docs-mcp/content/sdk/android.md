@@ -169,7 +169,7 @@ client.addEventListener(object : P2pEventListener {
 - MP4/MP3 需要源站支持单 Range，并返回有效的 `Content-Range`；不满足条件时保持正常播放但不启用加速。
 - 直链媒体地址没有 `.mp4` 或 `.mp3` 后缀时，请在 `PlaybackOptions` 中显式传入 `mimeType = "mp4"` 或 `mimeType = "mp3"`；播放器仍需支持对应格式。
 - Android 应用需要使用支持对应格式的播放器，例如 Media3 HLS 或 Media3 DASH。
-- Maven `1.0.10` 为四 ABI universal AAR：`armeabi-v7a` / `x86` 构建目标 API 17、`arm64-v8a` / `x86_64` 构建目标 API 21。
+- Maven `1.1.2` 为四 ABI universal AAR：`armeabi-v7a` / `x86` 构建目标 API 17、`arm64-v8a` / `x86_64` 构建目标 API 21。
 - 目标设备必须满足所选 ABI 的最低系统要求；播放器的系统下限需另行满足。
 - `INTERNET` 和 `ACCESS_NETWORK_STATE` 权限由 SDK 包声明；应用仍应按自身工程规范确认网络权限。
 

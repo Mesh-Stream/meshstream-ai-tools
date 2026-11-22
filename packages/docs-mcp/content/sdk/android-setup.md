@@ -20,7 +20,7 @@ MeshStream Android SDK 为 Android 播放器增加 P2P 加速能力。应用继�
 
 :::note 当前发布支持
 
-`1.0.10` 在同一 Maven 包中提供四种 ABI，覆盖 ARM 真机及 ARM64、x86、x86_64 模拟器。历史 `1.0.8` 为 ARM32 / ARM64 包，`1.0.7` 为 ARM64 包，保持不变。
+`1.1.2` 在同一 Maven 包中提供四种 ABI，覆盖 ARM 真机及 ARM64、x86、x86_64 模拟器。历史 `1.0.8` 为 ARM32 / ARM64 包，`1.0.7` 为 ARM64 包，保持不变。
 
 ARM32 / x86 构建目标为 API 17，ARM64 / x86_64 为 API 21；播放器可能有更高的系统要求，当前 Media3 Demo 需要 API 24。
 
@@ -79,11 +79,11 @@ repositories {
 }
 
 dependencies {
-    implementation("io.meshstream:meshstream-android-sdk:1.0.10")
+    implementation("io.meshstream:meshstream-android-sdk:1.1.2")
 }
 ```
 
-Gradle 会自动解析并下载 SDK 及其原生依赖，无需手工下载或复制 AAR。`1.0.10` 同时提供
+Gradle 会自动解析并下载 SDK 及其原生依赖，无需手工下载或复制 AAR。`1.1.2` 同时提供
 `armeabi-v7a`、`arm64-v8a`、`x86` 和 `x86_64`，真机与模拟器使用同一 Maven 依赖。
 
 建议在生产项目中固定 SDK 版本，并将仓库地址集中配置在项目级构建文件中，便于统一维护。SDK 依赖坐标为
